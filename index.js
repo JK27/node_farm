@@ -45,7 +45,7 @@ const replaceTemplate = (temp, product) => {
 };
 
 const tempOverview = fs.readFileSync(
-	`${__dirname}/templates/overview.html`,
+	`${__dirname}/templates/index.html`,
 	"utf-8"
 );
 const tempCard = fs.readFileSync(`${__dirname}/templates/card.html`, "utf-8");
@@ -63,8 +63,8 @@ const server = http.createServer((req, res) => {
 	const { query, pathname } = url.parse(req.url, true);
 
 	///////////////////////////////////// OVERVIEW PAGE
-	// If path name is equal to root or overview then load overview template...
-	if (pathname === "/" || pathname === "/overview") {
+	// If path name is equal to root or index then load index template...
+	if (pathname === "/" || pathname === "/index") {
 		res.writeHead(200, { "Content-type": "text/html" });
 
 		// DOES => Loop through data object with all products, replacing each card placeholder in the template with the product card in each iteration
