@@ -1,12 +1,12 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
-
+///////////////////////////////////////////////////////////////////// 3RD PARTY MODULES
+const slugify = require("slugify");
 ///////////////////////////////////////////////////////////////////// CUSTOM MODULES
 const replaceTemplate = require("./modules/replaceTemplate");
 
 ///////////////////////////////////////////////////////////////////// SERVER
-
 const tempOverview = fs.readFileSync(
 	`${__dirname}/templates/index.html`,
 	"utf-8"
@@ -19,6 +19,9 @@ const tempProduct = fs.readFileSync(
 // DOES => Reads the data in the json file and parses it into a JS object before the page is loaded
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
+
+// DOES => Creates slugs for urls from the product name
+const slugs = dataObj.map(el => slugify(el.productName, { lower: true }));
 
 ////////////////////////////////////////////////////// CREATE SERVER
 const server = http.createServer((req, res) => {
@@ -56,7 +59,7 @@ const server = http.createServer((req, res) => {
 		// NOTE => Headers must always be set before sending out the response
 		res.writeHead(404, {
 			"Content-type": "text/html",
-			"my-header": "Hello world",
+			"my-header": "Error 💥",
 		});
 		res.end("<h1>Page not found!</h1>");
 	}
